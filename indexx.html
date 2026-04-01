@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Microsoft Teams</title>
+<style>
+body {margin:0;font-family:Segoe UI, Arial;background:#1f1f1f;color:white;overflow:hidden;}
+#landing {position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);}
+.join-box {background:#2b2b2b;padding:30px;border-radius:10px;text-align:center;}
+.button {background:#6264a7;border:none;padding:12px 20px;color:white;border-radius:5px;cursor:pointer;}
+#meeting {display:none;height:100vh;width:100vw;background:#1f1f1f;}
+.topbar {background:#2b2b2b;padding:10px;font-size:14px;}
+.video-grid {display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:10px;height:70%;}
+.tile {background:#333;display:flex;align-items:center;justify-content:center;font-size:14px;border-radius:8px;}
+.controls {position:absolute;bottom:0;width:100%;background:#2b2b2b;padding:10px;display:flex;justify-content:center;gap:15px;}
+.control-btn {background:#444;padding:10px;border-radius:50%;cursor:pointer;}
+.status {position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+.chaos {position:absolute;width:120px;}
+#fakeAlert {display:none;position:fixed;bottom:20%;left:50%;transform:translateX(-50%);background:#2b2b2b;padding:20px;border-radius:10px;z-index:9999;text-align:center;}
+</style>
+</head>
+<body>
+
+<div id="landing">
+  <div class="join-box">
+    <h2>Microsoft Teams</h2>
+    <p>Join your meeting</p>
+    <button class="button" onclick="joinMeeting()">Join now</button>
+  </div>
+</div>
+
+<div id="meeting">
+  <div class="topbar">Meeting with Marylyn</div>
+  <div class="status" id="status">Connecting...</div>
+  <div class="video-grid" id="grid" style="display:none;">
+    <div class="tile">Marylyn (Presenter)</div>
+    <div class="tile">John (Muted)</div>
+    <div class="tile">Sarah (Connecting...)</div>
+    <div class="tile">You</div>
+  </div>
+  <div class="controls" id="controls" style="display:none;">
+    <div class="control-btn">🎤</div>
+    <div class="control-btn">📷</div>
+    <div class="control-btn">🖥️</div>
+    <div class="control-btn">❌</div>
+  </div>
+</div>
+
+<div id="fakeAlert">
+  <h3>Marylyn says</h3>
+  <p>🤡 YOU GOT APRIL FOOL’D 🤡</p>
+</div>
+
+<audio id="audio" src="https://www.myinstants.com/media/sounds/crazy-frog.mp3"></audio>
+
+<script>
+function joinMeeting(){
+  document.getElementById('landing').style.display='none';
+  document.getElementById('meeting').style.display='block';
+
+  let status=document.getElementById('status');
+
+  setTimeout(()=>{status.innerHTML='Joining meeting...';},1500);
+  setTimeout(()=>{status.innerHTML='Connecting audio...';},3000);
+  setTimeout(()=>{status.innerHTML='Marylyn is presenting...';},4500);
+  setTimeout(()=>{status.style.display='none';document.getElementById('grid').style.display='grid';document.getElementById('controls').style.display='flex';},6000);
+
+  setTimeout(()=>{
+    document.querySelectorAll('.tile')[2].innerHTML='Sarah (Joined)';
+  },7500);
+
+  setTimeout(startChaos,9000);
+}
+
+function startChaos(){
+  document.getElementById('audio').play();
+
+  for(let i=0;i<25;i++){
+    let img=document.createElement('img');
+    img.src='https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif';
+    img.className='chaos';
+    img.style.top=Math.random()*window.innerHeight+'px';
+    img.style.left=Math.random()*window.innerWidth+'px';
+    document.body.appendChild(img);
+  }
+
+  for(let i=0;i<20;i++){
+    let img=document.createElement('img');
+    img.src='https://media.giphy.com/media/QTrG6mjkHEkpFR3DqX/giphy.gif';
+    img.className='chaos';
+    img.style.top=Math.random()*window.innerHeight+'px';
+    img.style.left=Math.random()*window.innerWidth+'px';
+    document.body.appendChild(img);
+  }
+
+  setInterval(()=>{
+    document.body.style.transform=`translate(${Math.random()*15}px,${Math.random()*15}px)`;
+  },40);
+
+  setInterval(()=>{
+    document.getElementById('fakeAlert').style.display='block';
+  },2000);
+}
+</script>
+
+</body>
+</html>
